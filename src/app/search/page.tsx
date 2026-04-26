@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import MovieCard from '@/src/components/MovieCard';
 import { Movie } from '@/src/types/movie';
 import '@/src/components/MovieListe/index.scss';
 
-export default function SearchPage() {
+function SearchContent() {
     const searchParams = useSearchParams();
     const query = searchParams.get('q');
     const [movies, setMovies] = useState<Movie[]>([]);
@@ -23,9 +23,9 @@ export default function SearchPage() {
         setLoading(true);
         axios({
             method: 'get',
-            url: 'https://api.themoviedb.org/3/search/multi', 
+            url: 'https://api.themoviedb.org/3/search/multi', // Busca filmes e séries
             params: {
-                api_key: '99dd1bc749f8d84486e3d5c276211ab5',
+                api_key: process.env.NEXT_PUBLIC_TMDB_API_KEY,
                 language: 'pt-BR',
                 query: searchQuery,
                 include_adult: false
@@ -61,10 +61,18 @@ export default function SearchPage() {
                             />
                         )
                     ) : (
-                        <p style={{ color: 'white' }}>Nenhum filme encontrado.</p>
+                        <p style={{ color: 'white' }}>Nenhum filme ou série encontrado.</p>
                     )}
                 </ul>
             )}
         </main>
+    );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<p style={{ color: 'white', padding: '2rem' }}>Carregando...</p>}>
+            <SearchContent />
+        </Suspense>
     );
 }
