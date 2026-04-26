@@ -1,0 +1,62 @@
+'use client' // Necessário pois agora temos interatividade (useState)
+
+import { useState } from 'react';
+import { Movie } from "@/src/types/movie";
+import Stars from "../Stars";
+import MovieModal from '../MovieModal';
+import './index.scss'
+
+export interface Props {
+    movie: Movie
+}
+
+export default function MovieCard(props: Props){
+    const movie = props.movie;
+    
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    return (
+        <> 
+            <li className='movie-card'>
+                
+                <div className="movie-poster">
+                    
+                    <img 
+                        src={movie.poster_path ? `https://image.tmdb.org/t/p/original${movie.poster_path}` : 'https://via.placeholder.com/500x750?text=Sem+Imagem'}
+                        alt={movie.title || movie.name}
+                    />
+                </div>
+
+                <div className="movie-infos">
+                    <p className="movie-title">
+                        {movie.title || movie.name} 
+                    </p>
+                    
+                    <Stars rating={movie.vote_average} />
+                    
+                    <div className="hidden-content">
+                        {movie.overview &&
+                            <p className='description'>
+                                {movie.overview.length > 100
+                                    ?`${movie.overview.substring(0,100)}...`
+                                    : movie.overview
+                                }
+                            </p>
+                        }
+
+                        <button className="btn-default" onClick={() => setIsModalOpen(true)}>
+                            Ver mais
+                        </button>
+                    </div>
+                </div>
+            </li>
+
+            {isModalOpen && (
+                <MovieModal 
+                    movie={movie} 
+                    onClose={() => setIsModalOpen(false)} 
+                />
+            )}
+        </>
+    )
+}

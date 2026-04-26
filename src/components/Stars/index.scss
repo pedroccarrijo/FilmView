@@ -1,0 +1,14 @@
+.movie-rate{
+    display: flex;
+    gap: 4px;
+    flex-direction: row;
+
+    svg {
+        color: #f3eb00;
+    }
+    
+    .rate-number{
+        color: white;
+        font-weight: bold;
+    }
+}
