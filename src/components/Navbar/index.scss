@@ -80,3 +80,42 @@
     }
   }
 }
+
+// web mobile
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 1rem;
+    gap: 1rem;
+
+    /* Joga o menu para a linha debaixo e centraliza */
+    .options-menu {
+      position: static; /* Tira o position absolute */
+      transform: none;
+      order: 3; /* Força a ir para o final */
+      width: 100%;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .search {
+      order: 2;
+      
+      /* Diminui a barra de pesquisa para caber ao lado do Logo */
+      .search-movie {
+        width: 130px;
+        padding: 0.5rem;
+      }
+      
+      .button-search-movie {
+        padding: 0.5rem 0.8rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+    .navbar .search .search-movie {
+        width: 110px;
+    }
+}

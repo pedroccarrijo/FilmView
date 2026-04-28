@@ -6,3 +6,24 @@
     list-style: none;
     width: 100%;
 }
+
+// web mobile
+@media (max-width: 768px) {
+  .compact-grid, .movie-list { 
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .compact-grid, .movie-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+    margin-left: 10px;
+  }
+}
