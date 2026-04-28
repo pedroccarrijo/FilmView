@@ -1,173 +1,195 @@
 
 
 .movie-details-page {
-    background-color: #141414;
+    background-color: #0a0a0a; 
     min-height: 100vh;
-    width: 100%;
-    color: white;
-    padding-bottom: 50px;
+    color: #f1f5f9;
+    position: relative;
+    padding-bottom: 80px;
 
-    /* O container principal agora ocupa a tela, mas tem um limite máximo para telas gigantes */
-    .modal-content {
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        position: relative;
+  
+    .back-btn {
+        position: absolute;
+        top: 30px;
+        left: 40px;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 10px 24px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: 0.3s ease;
+        backdrop-filter: blur(8px);
+
+        &:hover {
+            background: #e50914;
+            border-color: #e50914;
+        }
     }
 
-    /* O Banner agora ocupa quase metade da tela na altura */
-    .modal-banner {
+   
+    .hero-banner {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        height: 55vh; 
-        min-height: 400px;
+        height: 75vh;
         background-size: cover;
         background-position: center 20%;
-        position: relative;
+        z-index: 0;
 
-        /* O gradiente agora funde perfeitamente com a cor de fundo #141414 */
-        .banner-gradient {
+        
+        .gradient-overlay {
             position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 250px;
-            background: linear-gradient(to bottom, rgba(20, 20, 20, 0) 0%, #141414 100%);
+            inset: 0;
+            background: linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.8) 30%, rgba(10,10,10,0.2) 100%);
         }
     }
 
-    /* Corpo onde ficam o poster e o texto */
-    .modal-body {
-        display: flex;
-        gap: 50px;
-        padding: 0 40px;
-        margin-top: -150px; /* Puxa o poster para cima do banner */
+    
+    .content-container {
         position: relative;
-        z-index: 2;
+        z-index: 10;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 28vh 40px 0; 
 
-        .modal-poster {
-            width: 300px;
-            height: 450px;
-            border-radius: 12px;
-            object-fit: cover;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            flex-shrink: 0; /* Impede o poster de ser esmagado pelo texto */
+        .header-content {
+            display: flex;
+            gap: 50px;
+            align-items: flex-start;
+
+            .poster {
+                width: 320px;
+                border-radius: 12px;
+                box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+                flex-shrink: 0;
+            }
+
+            .info {
+                h1 {
+                    font-size: 3.5rem;
+                    margin-bottom: 20px;
+                    text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+                    line-height: 1.1;
+                }
+
+                .meta {
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+                    margin-bottom: 25px;
+                    font-size: 1.1rem;
+
+                    .rating { color: #ffbb2f; font-weight: bold; }
+                    .duration {
+                        background: rgba(255, 255, 255, 0.1);
+                        padding: 4px 12px;
+                        border-radius: 6px;
+                    }
+                }
+
+                .genres {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 12px;
+                    margin-bottom: 30px;
+
+                    .genre-tag {
+                        background: rgba(255, 255, 255, 0.05);
+                        border: 1px solid rgba(255, 255, 255, 0.2);
+                        padding: 6px 18px;
+                        border-radius: 30px;
+                        font-size: 0.95rem;
+                        transition: border-color 0.3s;
+
+                        &:hover {
+                            border-color: #f1f5f9;
+                        }
+                    }
+                }
+
+                h2 { font-size: 1.5rem; margin-bottom: 12px; color: #ddd; }
+                
+                .overview {
+                    font-size: 1.15rem;
+                    line-height: 1.7;
+                    color: #bbb;
+                    max-width: 800px;
+                }
+            }
         }
 
-        .modal-info {
-            padding-top: 130px; /* Alinha o texto com a parte debaixo do banner */
-
-            h2 {
-                font-size: 3rem;
-                margin: 0 0 20px 0;
-                text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-            }
-
-            .modal-meta {
-                display: flex;
-                gap: 20px;
-                align-items: center;
-                margin-bottom: 25px;
-                font-size: 1.1rem;
-
-                .duration {
-                    background: #333;
-                    padding: 4px 10px;
-                    border-radius: 6px;
-                    font-weight: bold;
-                    color: #fff;
-                }
-            }
-
-            .modal-genres {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin-bottom: 30px;
-
-                .genre-pill {
-                    background: rgba(255, 187, 47, 0.1);
-                    border: 1px solid #ffbb2f;
-                    color: #ffbb2f;
-                    padding: 6px 16px;
-                    border-radius: 20px;
-                    font-size: 0.95rem;
-                    font-weight: bold;
-                }
-            }
+        /* Seção do Trailer Embutido */
+        .trailer-section {
+            margin-top: 80px;
             
-            h3 {
-                font-size: 1.5rem;
-                margin-bottom: 10px;
-                color: #ddd;
+            h2 {
+                font-size: 2rem;
+                margin-bottom: 25px;
+                border-left: 5px solid #e50914; 
+                padding-left: 15px;
             }
 
-            .overview {
-                font-size: 1.15rem;
-                line-height: 1.6;
-                color: #ccc;
-                max-width: 800px;
-            }
+            
+            .video-wrapper {
+                position: relative;
+                padding-bottom: 56.25%; 
+                height: 0;
+                border-radius: 12px;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+                border: 1px solid rgba(255, 255, 255, 0.1);
 
-            .btn-trailer {
-                display: inline-block;
-                margin-top: 30px;
-                background-color: #ffbb2f;
-                color: #141414; /* Deixei o texto escuro para dar contraste com o amarelo */
-                padding: 15px 35px;
-                border-radius: 8px;
-                text-decoration: none;
-                font-weight: bold;
-                transition: 0.3s;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-
-                &:hover {
-                    background-color: #e5a728;
-                    transform: translateY(-3px);
-                    box-shadow: 0 8px 20px rgba(255, 187, 47, 0.3);
+                iframe {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
                 }
             }
         }
     }
 }
 
+
 @media (max-width: 768px) {
     .movie-details-page {
-        .modal-banner {
-            height: 35vh; 
-            min-height: 250px;
+        .back-btn {
+            top: 15px;
+            left: 15px;
+            padding: 8px 16px;
         }
 
-        .modal-body {
-            flex-direction: column; 
-            align-items: center;
-            text-align: center;
-            margin-top: -100px; 
-            padding: 0 20px;
-            gap: 20px;
+        .hero-banner { height: 50vh; }
+        
+        .content-container {
+            padding: 20vh 20px 0;
 
-            .modal-poster {
-                width: 200px; 
-                height: 300px;
+            .header-content {
+                flex-direction: column;
+                align-items: center;
+                gap: 30px;
+                text-align: center;
+
+                .poster { 
+                    width: 220px; 
+                }
+
+                .info {
+                    h1 { font-size: 2.2rem; }
+                    .meta { justify-content: center; font-size: 1rem; }
+                    .genres { justify-content: center; }
+                    .overview { font-size: 1rem; text-align: left; }
+                }
             }
 
-            .modal-info {
-                padding-top: 10px;
-
-                h2 {
-                    font-size: 2.2rem;
-                }
-
-                .modal-meta {
-                    justify-content: center;
-                }
-                
-                .modal-genres {
-                    justify-content: center;
-                }
-                
-                .overview {
-                    font-size: 1.05rem;
-                }
+            .trailer-section {
+                margin-top: 50px;
+                h2 { font-size: 1.6rem; text-align: left; }
             }
         }
     }

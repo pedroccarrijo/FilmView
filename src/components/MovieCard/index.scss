@@ -15,13 +15,13 @@
 
     .movie-infos{
         position: absolute;
-        bottom: 0; /* CORRIGIDO: estava -10 sem unidade de medida */
+        bottom: -10;
         background: linear-gradient(#00000000, #000000 90%);
         height: 200px;
         width: 100%;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end; /* CORRIGIDO: flex-end é mais seguro que apenas end */
+        justify-content: end;
         padding: 10px;
 
         .movie-title {
@@ -35,38 +35,31 @@
             font-size: 12px;
             margin-top: 8px;
             height: 0px;
-            opacity: 0; /* CORRIGIDO: estava 0px, opacity não leva px */
+            opacity: 0px;
             transition: all .6s;
-            overflow: hidden; /* Impede que o botão "vaze" antes da animação abrir */
-            
-            /* ADICIONADO: Organiza o texto em cima e o botão embaixo */
-            display: flex;
-            flex-direction: column;
-
-            .description {
-                margin-bottom: 10px;
-            }
 
             .btn-default {
                 background-color: rgb(255, 255, 255);
                 color: #000000;
-                padding: 8px 8px; /* Aumentei um tiquinho pra ficar melhor no toque do celular */
+                padding: 6px 8px;
                 border-radius: 4px;
-                display: flex; /* Flex ajuda a centralizar o texto do Link melhor */
+                display: inline-flex;
                 align-items: center;
                 justify-content: center;
                 text-decoration: none;
-                margin-top: auto; /* Empurra o botão pro fundo do espaço disponível */
+                margin-top: 10px;
                 border: none;
                 cursor: pointer;
                 width: 100%;
-                font-weight: bold;
+
             }
         }
+
     }
 
     &:hover {
         cursor: pointer;
+
 
         .movie-poster img{
             opacity: 0.5;
@@ -83,5 +76,6 @@
         .movie-infos:not(:has(.description)) .hidden-content {
             height: 50px;
         }
+
     }
 }

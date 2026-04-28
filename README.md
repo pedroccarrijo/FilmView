@@ -44,3 +44,16 @@ npm install
 
 # 5. Inicie o projeto em modo de desenvolvimento
 npm run dev
+
+Usuário (Navegador) 
+   │
+   ├──> Interface Vercel (Hospedagem / Cliente)
+   │      │
+   │      ├──> Next.js (App Router)
+   │      │      ├──> Rota Raiz: / (Listagem de Filmes)
+   │      │      ├──> Rota de Busca: /search?q=...
+   │      │      └──> Rota Dinâmica: /movie/[id] (Detalhes e Trailer)
+   │      │
+   │      └──> Requisições HTTP (Axios)
+   │               │
+   │               └──> TMDB API e YouTube API (Servidores Externos)
