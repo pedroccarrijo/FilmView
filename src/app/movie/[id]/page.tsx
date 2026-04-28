@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Movie } from '@/src/types/movie';
-import '@/src/components/MovieModal/index.scss'; // Reaproveitando seu CSS do modal
+import './page.scss';
 
 export default function MovieDetailsPage() {
     const { id } = useParams();
