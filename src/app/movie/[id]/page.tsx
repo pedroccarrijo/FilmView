@@ -1,13 +1,14 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { Movie } from '@/src/types/movie';
 import './page.scss'; 
 
 interface MovieDetails extends Movie {
     runtime?: number;
+    number_of_seasons?: number;
     genres?: { id: number; name: string }[];
     videos?: {
         results: { key: string; site: string; type: string }[];
@@ -17,6 +18,9 @@ interface MovieDetails extends Movie {
 export default function MovieDetailsPage() {
     const { id } = useParams();
     const router = useRouter();
+    const searchParams = useSearchParams(); 
+    
+    const type = searchParams.get('type') || 'movie'; 
     
     const [details, setDetails] = useState<MovieDetails | null>(null);
     const [loading, setLoading] = useState(true);
@@ -29,8 +33,9 @@ export default function MovieDetailsPage() {
         const fetchDetails = async () => {
             setLoading(true);
             try {
+                
                 const response = await axios.get(
-                    `https://api.themoviedb.org/3/movie/${id}`, 
+                    `https://api.themoviedb.org/3/${type}/${id}`, 
                     {
                         params: {
                             api_key: API_KEY,
@@ -48,39 +53,40 @@ export default function MovieDetailsPage() {
         };
 
         fetchDetails();
-    }, [id, API_KEY]);
+    }, [id, API_KEY, type]);
 
-    const formatRuntime = (minutes?: number) => {
-        if (!minutes) return '';
-        const h = Math.floor(minutes / 60);
-        const m = minutes % 60;
-        return h > 0 ? `${h}h ${m}m` : `${m}m`;
+    const formatInfo = () => {
+        if (type === 'movie') {
+            if (!details?.runtime) return '';
+            const h = Math.floor(details.runtime / 60);
+            const m = details.runtime % 60;
+            return h > 0 ? `${h}h ${m}m` : `${m}m`;
+        } else {
+            // Se for série, mostra o número de temporadas
+            return details?.number_of_seasons 
+                ? `${details.number_of_seasons} Temporada${details.number_of_seasons > 1 ? 's' : ''}` 
+                : '';
+        }
     };
 
     if (loading) return <p style={{ color: 'white', padding: '2rem', textAlign: 'center' }}>Carregando detalhes...</p>;
-    if (!details) return <p style={{ color: 'white', padding: '2rem', textAlign: 'center' }}>Filme não encontrado.</p>;
+    if (!details) return <p style={{ color: 'white', padding: '2rem', textAlign: 'center' }}>Item não encontrado.</p>;
 
     const trailer = details.videos?.results.find(v => v.type === "Trailer" && v.site === "YouTube");
 
     return (
         <main className="movie-details-page">
-            
-            {/* Botão de voltar aprimorado */}
             <button className="back-btn" onClick={() => router.back()}>
                 ← Voltar
             </button>
 
-            {/* Fundo Gigante com Gradiente */}
             <div className="hero-banner" style={{ backgroundImage: `url(https://image.tmdb.org/t/p/original${details.backdrop_path})` }}>
                 <div className="gradient-overlay"></div>
             </div>
 
-            {/* Container Principal de Conteúdo */}
             <div className="content-container">
-                
-                {/* Parte Superior: Poster + Textos */}
                 <div className="header-content">
-                    <img src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} className="poster" alt={details.title} />
+                    <img src={`https://image.tmdb.org/t/p/w500${details.poster_path}`} className="poster" alt={details.title || details.name} />
                     
                     <div className="info">
                         <h1>{details.title || details.name}</h1>
@@ -88,7 +94,8 @@ export default function MovieDetailsPage() {
                         <div className="meta">
                             <span className="rating">⭐ {details.vote_average?.toFixed(1)}</span>
                             <span className="year">{(details.release_date || details.first_air_date)?.substring(0, 4)}</span>
-                            {details.runtime && <span className="duration">{formatRuntime(details.runtime)}</span>}
+                            
+                            <span className="duration">{formatInfo()}</span>
                         </div>
 
                         <div className="genres">
@@ -102,7 +109,6 @@ export default function MovieDetailsPage() {
                     </div>
                 </div>
 
-                {/* Parte Inferior: Trailer Embutido */}
                 {trailer && (
                     <div className="trailer-section">
                         <h2>Trailer Oficial</h2>
@@ -117,7 +123,6 @@ export default function MovieDetailsPage() {
                         </div>
                     </div>
                 )}
-
             </div>
         </main>
     );

@@ -94,7 +94,7 @@ export default function ExploreList({ type }: ExploreListProps) {
 
             <ul className="compact-grid">
                 {items.map((item) => (
-                    <MovieCard key={item.id} movie={item} />
+                    <MovieCard key={item.id} movie={item} type={type} />
                 ))}
             </ul>
 

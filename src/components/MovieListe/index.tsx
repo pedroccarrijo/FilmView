@@ -43,6 +43,7 @@ export default function MovieListe({ type }: MovieListeProps) {
                     <MovieCard
                         key={movie.id} 
                         movie={movie}
+                        type={type}
                     />
                 )}
             </ul>

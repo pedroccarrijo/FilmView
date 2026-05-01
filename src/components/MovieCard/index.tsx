@@ -6,11 +6,15 @@ import Stars from "../Stars";
 import './index.scss'
 
 export interface Props {
-    movie: Movie
+    movie: Movie;
+    type?: 'movie' | 'tv'; 
 }
 
 export default function MovieCard(props: Props){
     const movie = props.movie;
+    
+    //  Define se é filme ou série. 
+    const mediaType = props.type || (movie as any).media_type || 'movie';
     
     return (
         <li className='movie-card'>
@@ -39,7 +43,7 @@ export default function MovieCard(props: Props){
                         </p>
                     }
 
-                    <Link className="btn-default" href={`/movie/${movie.id}`}>
+                    <Link className="btn-default" href={`/movie/${movie.id}?type=${mediaType}`}>
                         Ver mais
                     </Link>
                 </div>
